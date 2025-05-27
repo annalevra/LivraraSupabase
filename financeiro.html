@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Inicial</title>
+    <!-- CSS do Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <!-- CSS dos ícones do Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Fatec Finance</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">
+                            <i class="bi bi-house"></i> Início</a></li>
+                    <li class="nav-item"><a class="nav-link" href="financeiro.html"><i class="bi bi-cash-coin"></i>
+                            Lançamentos Financeiros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="usuarios.html"><i class="bi bi-people"></i>
+                            Usuários</a></li>
+                    <li class="nav-item"><a class="nav-link" href="relatorios.html"><i class="bi bi-newspaper"></i>
+                            Relatórios</a></li>
+                    <li class="nav-item">
+                        <button class="btn btn-danger" onclick="logout()">
+                            <i class="bi bi-box-arrow-right"></i> Sair</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Lançamentos Financeiros -->
+     <div class="container py-5">
+        <h2 class="text-primary">Meus Lançamentos Financeiros</h2>
+     </div>
+     <div class="card w-50 mx-auto shadow"> <!-- w-25, w-50, w-75, w-100 -->
+        <div class="card-body">
+            <form id="form-lancamento">
+                <input type="hidden" id="id-edicao" />
+                <div class="mb-3">
+                    <label for="tipo" class="form-label">Tipo do Lançamento:</label>
+                    <select id="tipo" class="form-select">
+                        <option value="despesa">🔴Despesa</option>
+                        <option value="receita">🟢Receita</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="categoria" class="form-label">Categoria</label>
+                    <select id="categoria" class="form-select" required>
+                        <option value="">Selecione...</option>
+                        <option value="Alimentação">🍴Alimentação</option>
+                        <option value="Transporte">🚗Transporte</option>
+                        <option value="Aluguel">🏠Aluguel</option>
+                        <option value="Salário">💵Salário</option>
+                        <option value="Pet">🐶Pet</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="valor" class="form-label">Valor</label>
+                    <input type="number" step="0.01" min="0" id="valor" class="form-control" required title="Informe o valor do lançamento" />
+                </div>
+                <div class="mb-3">
+                    <label for="descricao" class="form-label">Descrição</label>
+                    <input type="text" id="descricao" class="form-control"/>
+                </div>
+                <div class="mb-3">
+                    <label for="data_ocorrencia" class="form-label">Data</label>
+                    <input type="date" id="data_ocorrencia" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label for="data_vencimento" class="form-label">Data de Vencimento</label>
+                    <input type="date" id="data_vencimento" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-primary">Salvar Lançamento</button>
+                <button type="button" id="cancelar-edicao" class="btn btn-secondary d-none">Cancelar Edição</button>
+            </form>
+        </div>
+     </div>
+
+    <!-- JS do Bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+        crossorigin="anonymous"></script>
+    <!-- Script do Supabase -->
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+        const urlSupabase = 'https://leifjrmtmaflyaocpbin.supabase.co' //cole a informação do Supabase
+        const anon = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxlaWZqcm10bWFmbHlhb2NwYmluIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcxNzUyMTUsImV4cCI6MjA2Mjc1MTIxNX0.ALEM4vwgTKsUwy2EyJQBs3dlSJK0DqKXEGofeljSeZ4' //chave anônima
+        const supabase = createClient(urlSupabase, anon)
+        //carregando a sessão do login
+        const session = JSON.parse(localStorage.getItem('session'))
+        if (!session) window.location.href = 'index.html' //se não tiver, volta pro login
+
+        //Função logout
+        window.logout = async function () {
+            await supabase.auth.signOut() //fechamos a conexão ao Supabase
+            localStorage.removeItem('session') //removemos o dado salvo
+            window.location.href = 'index.html' //direciona para o login
+        }
+
+        // Salvar os dados do lancamento
+        document.getElementById('form-lancamento').addEventListener
+        ('submit', async(e) => {
+            e.preventDefault() //evita o recarregamento default
+            //obtendo o id do usuario
+            const user_id = session.user.id
+            //obtendo o id do registro
+            const id = document.getElementById('id-edicao').value
+            alert(`O id do usuário é ${user_id}`)
+            alert(`O id do documento é ${id}`)
+            const novoLancamento = {
+                user_id,
+                tipo: tipo.value,
+                categoria: categoria.value,
+                valor: parseFloat(valor.value),
+                descricao: descricao.value,
+                data_ocorrencia: data_ocorrencia.value,
+                data_vencimento: data_vencimento.value || null //se não tiver data de vencimento, será nulo
+            }
+           // console.log(novoLancamento) -- mostra no navegador
+           if(id){ //se existe o id faremos o update
+            await supabase.from('lancamentos').update(novoLancamento).eq('id', id)
+           }else{ // se nao existe o id faremos o insert
+            await supabase.from('lancamentos').insert([novoLancamento])
+           }
+        })
+    </script>
+</body>
+
+</html>
