@@ -132,7 +132,14 @@
            }else{ // se nao existe o id faremos o insert
             await supabase.from('lancamentos').insert([novoLancamento])
            }
+           limparFormularioLancamento() //limpa o formulário
         })
+
+        function limparFormularioLancamento(){
+            document.getElementById('form-lancamento').reset() //limpa o formulário
+            document.getElementById('id-edicao').value = '' //limpa o id de edição
+            alert('Lançamento salvo com sucesso!')
+        }
     </script>
 </body>
 
