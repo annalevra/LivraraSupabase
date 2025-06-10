@@ -1,0 +1,65 @@
+if (data) {
+    // Cria a tabela e o cabeçalho
+    const tabela = document.createElement('table');
+    tabela.className = 'table table-striped';
+
+    const thead = document.createElement('thead');
+    thead.innerHTML = `
+        <tr>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Categoria</th>
+            <th>Data de Locação</th>
+            <th>Data de Devolução</th>
+            <th>Ações</th>
+        </tr>
+    `;
+    tabela.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+
+    // Preenche as linhas da tabela com os dados
+    data.forEach(l => {
+        const linha = document.createElement('tr');
+
+        linha.innerHTML = `
+            <td>${l.titulo}</td>
+            <td>${l.autor}</td>
+            <td>${l.categoria}</td>
+            <td>${formatarDataBr(l.data_locacao)}</td>
+            <td>${formatarDataBr(l.data_devolucao)}</td>
+            <td>
+                <button class="btn btn-sm btn-light me-2 editar" data-id="${l.id}">✏️</button>
+                <button class="btn btn-sm btn-dark excluir" data-id="${l.id}">🗑️</button>
+            </td>
+        `;
+
+        tbody.appendChild(linha);
+    });
+
+    tabela.appendChild(tbody);
+
+    // Limpa o conteúdo atual e adiciona a tabela
+    lista.innerHTML = '';
+    lista.appendChild(tabela);
+});
+
+
+    if (data) {
+        data.forEach(l => {
+            const item = document.createElement('li');
+            item.className = 'list-group-item d-flex justify-content-between align-items-center';
+
+            const texto = document.createElement('span');
+            texto.textContent = `${l.titulo} - ${l.autor} - ${l.categoria} - Locado em: ${formatarDataBr(l.data_locacao)} - Devolução: ${formatarDataBr(l.data_devolucao)}`;
+
+            const botoes = document.createElement('div');
+            botoes.innerHTML = `
+                <button class="btn btn-sm btn-light me-2 editar" data-id="${l.id}">✏️</button>
+                <button class="btn btn-sm btn-dark excluir" data-id="${l.id}">🗑️</button>
+            `;
+
+            item.appendChild(texto);
+            item.appendChild(botoes);
+            lista.appendChild(item);
+        });
