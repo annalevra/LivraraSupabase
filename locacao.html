@@ -14,7 +14,7 @@
     <!--Navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">Fatec Library</a>
+            <a class="navbar-brand" href="#">BookStore</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -24,9 +24,7 @@
                             <i class="bi bi-house"></i> Início</a></li>
                     <li class="nav-item"><a class="nav-link" href="locacao.html"><i class="bi bi-book"></i>
                             Locação de Livros</a></li>
-                    <li class="nav-item"><a class="nav-link" href="usuarios.html"><i class="bi bi-people"></i>
-                            Usuários</a></li>
-                    <li class="nav-item"><a class="nav-link" href="relatorios.html"><i class="bi bi-newspaper"></i>
+                    <li class="nav-item"><a class="nav-link" href="relatorios.html"><i class="bi bi-journal-check"></i>
                             Relatórios</a></li>
                     <li class="nav-item">
                         <button class="btn btn-danger" onclick="logout()">
@@ -100,7 +98,7 @@
 
             lista.innerHTML = '';
 
-            if (data) {
+if (data) {
     // Cria a tabela e o cabeçalho
     const tabela = document.createElement('table');
     tabela.className = 'table table-striped';

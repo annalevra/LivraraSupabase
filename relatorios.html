@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Relatórios de Locação</title>
+    <!-- CSS do Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <!-- CSS dos ícones do Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background-color: #1a004b !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: linear-gradient(to right, #6a11cb, #2575fc) !important;
+        }
+
+        .nav-link {
+            color: #e0e0e0 !important;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .nav-link:hover {
+            color: #ffffff !important;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-danger {
+            background-color: #ff4d4d;
+            border-color: #ff4d4d;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-danger:hover {
+            background-color: #ff3333;
+            border-color: #ff3333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .container.py-5 {
+            flex-grow: 1;
+            padding-top: 3rem !important;
+            padding-bottom: 3rem !important;
+        }
+
+        h2 {
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-control,
+        .form-select {
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+        }
+
+        .btn-primary {
+            background-color: #28a745;
+            border-color: #28a745;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-primary:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .table-responsive {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+            padding: 1.5rem;
+            overflow-x: auto;
+        }
+
+        .table {
+            margin-bottom: 0;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+        .table th {
+            background-color: #1a004b;
+            color: #fff;
+            font-weight: bold;
+            padding: 1rem;
+            vertical-align: middle;
+            border-bottom: 2px solid #2575fc;
+        }
+
+        .table td {
+            padding: 1rem;
+            vertical-align: middle;
+            border-bottom: 1px solid #eee;
+            background-color: #f8f9fa;
+        }
+
+        .table tbody tr:hover {
+            background-color: #e9ecef;
+            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .table .text-success {
+            color: #28a745 !important;
+            font-weight: 600;
+        }
+
+        .table .text-danger {
+            color: #dc3545 !important;
+            font-weight: 600;
+        }
+
+                /* Esconder elementos na impressão */
+                @media print {
+            body {
+                background: none !important;
+            }
+            .navbar, .btn-print, .card {
+                display: none !important;
+            }
+            .container {
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+            }
+            .table-responsive {
+                box-shadow: none !important;
+                padding: 0 !important;
+                border-radius: 0 !important;
+                background-color: #fff !important;
+            }
+            .table {
+                width: 100%;
+                border: 1px solid #dee2e6;
+            }
+            .table th, .table td {
+                border: 1px solid #dee2e6;
+                padding: 8px;
+            }
+            .table th {
+                background-color: #f2f2f2 !important;
+                color: #333 !important;
+            }
+            h2 {
+                color: #333 !important;
+                text-shadow: none !important;
+                margin-bottom: 1rem !important;
+            }
+        }
+        </style>
+</head>
+
+<body>
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">BookStore</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house"></i> Início</a></li>
+                    <li class="nav-item"><a class="nav-link" href="locacao.html"><i class="bi bi-book"></i> Locação de Livros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="relatorios.html"><i class="bi bi-journal-check"></i> Relatórios</a></li>
+                    <li class="nav-item">
+                        <button class="btn btn-danger" onclick="logout()">
+                            <i class="bi bi-box-arrow-right"></i> Sair</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <h2 class="mb-4">Relatório de Locação</h2>
+        <div id="relatorio-container" class="table-responsive">
+            <!-- A tabela será gerada dinamicamente aqui -->
+        </div>
+    </div>
+    
+    <div class="text-center mb-4">
+        <button id="printTable" class="btn btn-primary btn-print"><i class="bi bi-printer"></i> Imprimir Tabela</button>
+    </div>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+        const urlSupabase = 'https://leifjrmtmaflyaocpbin.supabase.co';
+        const anon = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxlaWZqcm10bWFmbHlhb2NwYmluIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcxNzUyMTUsImV4cCI6MjA2Mjc1MTIxNX0.ALEM4vwgTKsUwy2EyJQBs3dlSJK0DqKXEGofeljSeZ4';
+
+        const supabase = createClient(urlSupabase, anon);
+
+        const session = JSON.parse(localStorage.getItem('session'));
+        if (!session) window.location.href = 'index.html';
+
+        const user_id = session.user.id;
+        const relatorioContainer = document.getElementById('relatorio-container');
+
+        async function carregarRelatorio() {
+            const { data, error } = await supabase
+                .from('livros')
+                .select('*')
+                .eq('user_id', user_id)
+                .order('data_locacao', { ascending: false });
+
+            if (error) {
+                console.error('Erro ao carregar relatório:', error);
+                relatorioContainer.innerHTML = '<div class="alert alert-danger">Erro ao carregar os dados.</div>';
+                return;
+            }
+
+            if (data && data.length > 0) {
+                const tabela = document.createElement('table');
+                tabela.className = 'table table-striped';
+
+                const thead = document.createElement('thead');
+                thead.innerHTML = `
+                    <tr>
+                        <th>Título</th>
+                        <th>Autor</th>
+                        <th>Categoria</th>
+                        <th>Data de Locação</th>
+                        <th>Data de Devolução</th>
+                    </tr>
+                `;
+                tabela.appendChild(thead);
+
+                const tbody = document.createElement('tbody');
+                data.forEach(l => {
+                    const linha = document.createElement('tr');
+                    linha.innerHTML = `
+                        <td>${l.titulo}</td>
+                        <td>${l.autor}</td>
+                        <td>${l.categoria}</td>
+                        <td>${formatarDataBr(l.data_locacao)}</td>
+                        <td>${formatarDataBr(l.data_devolucao)}</td>
+                    `;
+                    tbody.appendChild(linha);
+                });
+
+                tabela.appendChild(tbody);
+                relatorioContainer.innerHTML = '';
+                relatorioContainer.appendChild(tabela);
+            } else {
+                relatorioContainer.innerHTML = '<div class="alert alert-info">Nenhum registro encontrado.</div>';
+            }
+        }
+
+        // Adiciona evento ao botão de impressão
+        document.getElementById('printTable').addEventListener('click', () => {
+            window.print();
+        });
+
+        function formatarDataBr(dataISO) {
+            if (!dataISO) return 'Não Informado';
+            const [ano, mes, dia] = dataISO.split('-');
+            return `${dia}/${mes}/${ano}`;
+        }
+
+        window.logout = async function () {
+            await supabase.auth.signOut();
+            localStorage.removeItem('session');
+            window.location.href = 'index.html';
+        };
+
+        carregarRelatorio();
+    </script>
+</body>
+
+</html>
