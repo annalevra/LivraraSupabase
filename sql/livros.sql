@@ -1,4 +1,3 @@
-
 -- Tabela de Lançamentos de Livros
 create table livros(
   id uuid primary key default gen_random_uuid(),
